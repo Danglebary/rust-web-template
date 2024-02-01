@@ -1,0 +1,18 @@
+[env]
+# Application Identifiers
+SERVICE_APP_NAME="live-api"
+SERVICE_APP_VERSION="0.0.1"
+SERVICE_APP_SHORT_SHA="unknown"
+SERVICE_APP_STAGE="local"
+
+# Application Secrets (e.g. API keys)
+SERVICE_DB_URL="postgres://app_dev:dev_only_pwd@localhost:5432/app_db"
+SERVICE_DB_NAME="live-api"
+SERVICE_DB_USER="dev"
+SERVICE_DB_PASSWORD="dev_only_password"
+SERVICE_DB_POOL_SIZE="10"
+
+# Application Settings
+SERVICE_APP_LOG_LEVEL="debug"
+SERVICE_APP_HOST="127.0.0.1"
+SERVICE_APP_PORT="1337"

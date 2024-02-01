@@ -1,0 +1,19 @@
+[env]
+# Application Identifiers
+SERVICE_APP_NAME=""
+SERVICE_APP_VERSION=""
+SERVICE_APP_SHORT_SHA=""
+SERVICE_APP_STAGE=""
+
+# Application Secrets (e.g. API keys)
+SERVICE_DB_HOST=""
+SERVICE_DB_PORT=""
+SERVICE_DB_NAME=""
+DB_USER=""
+DB_PASSWORD=""
+DB_POOL_SIZE=""
+
+# Application Configuration
+APP_LOG_LEVEL=""
+APP_HOST=""
+APP_PORT=""
