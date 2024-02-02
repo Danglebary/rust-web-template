@@ -27,7 +27,6 @@ async fn main() -> Result<()> {
     // Initialize tracing
     trace::init_tracing()?;
 
-    debug!("Hello, World!");
     debug!("Application configuration: {:#?}", config);
 
     let app = routes::build();
