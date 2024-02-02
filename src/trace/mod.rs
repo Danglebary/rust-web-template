@@ -28,13 +28,10 @@ fn init_tracing_local(log_level: Level) -> impl Subscriber + Send + Sync + 'stat
 }
 
 pub fn init_tracing() -> Result<()> {
-    let stage = config().APP_STAGE.clone();
-    let level = config().APP_LOG_LEVEL.to_tracing_level();
-
-    let subscriber = match stage {
+    let subscriber = match config().APP_STAGE {
         Stage::Production => todo!("init_tracing_production()"),
         Stage::Staging => todo!("init_tracing_staging()"),
-        Stage::Local => init_tracing_local(level),
+        Stage::Local => init_tracing_local(config().APP_LOG_LEVEL.to_tracing_level()),
     };
 
     tracing::subscriber::set_global_default(subscriber)?;
