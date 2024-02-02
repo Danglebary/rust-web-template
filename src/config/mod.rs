@@ -18,7 +18,6 @@ pub mod stage;
 use env_var::EnvVar;
 pub use stage::Stage;
 
-#[allow(unused_imports)]
 pub use error::{Error, Result};
 
 // endregion: module imports and declarations

@@ -10,7 +10,6 @@ use crate::{config, config::Stage};
 pub mod error;
 
 // self imports and exports
-#[allow(unused_imports)]
 pub use error::{Error, Result};
 
 // endregion: module imports and declarations
