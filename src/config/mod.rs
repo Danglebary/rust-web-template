@@ -42,19 +42,15 @@ pub struct AppConfig {
     pub APP_SHORT_SHA: String,
     pub APP_STAGE: stage::Stage,
 
-    // Application Secrets (e.g. API keys)
-
-    // Database Configuration
-    pub DB_URL: String,
-    pub DB_NAME: String,
-    pub DB_USER: String,
-    pub DB_PASSWORD: String,
-    pub DB_POOL_SIZE: u16,
-
     // Application Settings
     pub APP_LOG_LEVEL: log_level::LogLevel,
     pub APP_HOST: IpAddr,
     pub APP_PORT: u16,
+
+    // Observability Settings
+    pub OBSERVABILITY_API_KEY_HEADER: String,
+    pub OBSERVABILITY_API_KEY: String,
+    pub OBSERVABILITY_API_INGEST_URL: String,
 }
 
 impl AppConfig {
@@ -65,16 +61,18 @@ impl AppConfig {
             APP_VERSION: EnvVar::from_env::<String>(constants::APP_VERSION)?,
             APP_SHORT_SHA: git::short_sha()?,
             APP_STAGE: stage::Stage::from_env()?,
-            // Application Secrets (e.g. API keys)
-            DB_URL: EnvVar::from_env::<String>(constants::DB_URL)?,
-            DB_NAME: EnvVar::from_env::<String>(constants::DB_NAME)?,
-            DB_USER: EnvVar::from_env::<String>(constants::DB_USER)?,
-            DB_PASSWORD: EnvVar::from_env::<String>(constants::DB_PASSWORD)?,
-            DB_POOL_SIZE: EnvVar::from_env::<u16>(constants::DB_POOL_SIZE)?,
             // Application Settings
             APP_LOG_LEVEL: log_level::LogLevel::from_env()?,
             APP_HOST: EnvVar::from_env::<IpAddr>(constants::APP_HOST)?,
             APP_PORT: EnvVar::from_env::<u16>(constants::APP_PORT)?,
+            // Observability Settings
+            OBSERVABILITY_API_KEY_HEADER: EnvVar::from_env::<String>(
+                constants::OBSERVABILITY_API_KEY_HEADER,
+            )?,
+            OBSERVABILITY_API_KEY: EnvVar::from_env::<String>(constants::OBSERVABILITY_API_KEY)?,
+            OBSERVABILITY_API_INGEST_URL: EnvVar::from_env::<String>(
+                constants::OBSERVABILITY_API_INGEST_URL,
+            )?,
         })
     }
 }

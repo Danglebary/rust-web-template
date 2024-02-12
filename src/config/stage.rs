@@ -15,7 +15,7 @@ use super::{
 
 // endregion: module imports and declarations
 
-#[derive(Serialize, Deserialize, Clone, Debug)]
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Eq)]
 pub enum Stage {
     Local,
     Staging,

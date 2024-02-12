@@ -2,7 +2,7 @@
 
 // external crates
 use std::net::SocketAddr;
-use tracing::debug;
+use tracing::info;
 
 // internal imports
 
@@ -27,7 +27,7 @@ async fn main() -> Result<()> {
     // Initialize tracing
     trace::init_tracing()?;
 
-    debug!("Application configuration: {:#?}", config);
+    info!("Application configuration: {:#?}", config);
 
     let app = routes::build();
 

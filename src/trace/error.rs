@@ -15,6 +15,8 @@ use tracing::subscriber::SetGlobalDefaultError;
 pub enum Error {
     #[error("failed to set global default subscriber: {0}")]
     SetGlobalDefaultSubscriberFailed(#[from] SetGlobalDefaultError),
+    #[error("failed to initialize otlp tracing pipeline: {0}")]
+    OtlpTracingPipelineInitFailed(#[from] opentelemetry::trace::TraceError),
 }
 
 pub type Result<T> = anyhow::Result<T, Error>;
