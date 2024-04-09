@@ -2,13 +2,12 @@
 
 // external crates
 use std::net::SocketAddr;
-use tracing::debug;
 
 // internal imports
 
 // modules
+mod api;
 mod config;
-mod controller;
 mod error;
 mod trace;
 mod util;
@@ -27,13 +26,13 @@ async fn main() -> Result<()> {
     // Initialize tracing
     trace::init_tracing()?;
 
-    debug!("Application configuration: {:#?}", config);
+    // Build the API router
+    let router = api::build_router();
 
-    let app = controller::build();
-
+    // Setup TCP listener and serve the API
     let addr = SocketAddr::from((config.APP_HOST, config.APP_PORT));
     let listener = tokio::net::TcpListener::bind(&addr).await?;
-    axum::serve(listener, app).await?;
+    axum::serve(listener, router).await?;
 
     Ok(())
 }
