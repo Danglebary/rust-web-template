@@ -7,10 +7,12 @@ use axum::Router;
 
 // modules
 mod controller;
+mod error;
 mod fallback;
 mod layer;
 
 // self imports and exports
+pub use error::{ApiError, Result};
 
 // endregion: module imports and declarations
 

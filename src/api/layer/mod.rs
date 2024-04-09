@@ -13,5 +13,7 @@ mod trace;
 // endregion: module imports and declarations
 
 pub(super) fn add_layers(router: Router) -> Router {
-    router.layer(trace::trace_layer())
+    let router = trace::add_trace_layer(router);
+
+    router
 }

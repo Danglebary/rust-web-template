@@ -10,6 +10,7 @@ mod health;
 mod hello_world;
 
 // self imports and exports
+pub use super::{ApiError, Result};
 
 // endregion: module imports and declarations
 
@@ -18,4 +19,5 @@ pub(super) fn add_routes(router: Router) -> Router {
         .route("/healthz", get(health::healthz))
         .route("/readyz", get(health::readyz))
         .route("/", get(hello_world::handler))
+        .route("/echo/:name", get(hello_world::echo))
 }
