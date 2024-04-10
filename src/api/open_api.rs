@@ -16,9 +16,11 @@ use super::RouterError;
 
 // endregion: module imports and declarations
 
+/// This is only used by the `gen-openapi` binary
 #[utoipauto]
 #[derive(OpenApi)]
 #[openapi()]
+#[allow(unused)]
 struct ApiDoc;
 
 pub fn add_swagger_ui(router: Router) -> anyhow::Result<Router, RouterError> {
@@ -36,7 +38,7 @@ pub fn add_swagger_ui(router: Router) -> anyhow::Result<Router, RouterError> {
 }
 
 /// This is only used by the `gen-openapi` binary
-// #[allow(unused)]
+#[allow(unused)]
 pub fn generate_docs() -> String {
     ApiDoc::openapi().to_pretty_json().unwrap()
 }
