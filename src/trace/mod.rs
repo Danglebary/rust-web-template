@@ -52,7 +52,9 @@ fn init_tracing_local(log_level: Level) -> Result<()> {
 
 fn init_tracing_external(log_level: Level) -> Result<()> {
     let tracer = init_tracer()?;
-    let otel = tracing_opentelemetry::layer().with_tracer(tracer).with_filter(filter::LevelFilter::from(log_level));
+    let otel = tracing_opentelemetry::layer()
+        .with_tracer(tracer)
+        .with_filter(filter::LevelFilter::from(log_level));
 
     Registry::default().with(otel).init();
 
@@ -108,7 +110,7 @@ fn resource() -> Resource {
             // ),
             KeyValue::new(
                 semcov::resource::SERVICE_VERSION,
-                config().APP_SHORT_SHA.clone(),
+                config().APP_VERSION.clone(),
             ),
             KeyValue::new(
                 semcov::resource::DEPLOYMENT_ENVIRONMENT,

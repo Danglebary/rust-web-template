@@ -10,7 +10,6 @@ mod api;
 mod config;
 mod error;
 mod trace;
-mod util;
 
 // self imports and exports
 pub use config::config;

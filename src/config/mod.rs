@@ -5,7 +5,6 @@ use serde::{Deserialize, Serialize};
 use std::{net::IpAddr, sync::OnceLock};
 
 // internal imports
-use crate::util::git;
 
 // modules
 mod constants;
@@ -33,13 +32,12 @@ pub fn config() -> &'static AppConfig {
     })
 }
 
-#[allow(non_snake_case, clippy::module_name_repetitions)]
+#[allow(non_snake_case)]
 #[derive(Serialize, Deserialize, Debug)]
 pub struct AppConfig {
     // Application Identifiers
     pub APP_NAME: String,
     pub APP_VERSION: String,
-    pub APP_SHORT_SHA: String,
     pub APP_STAGE: stage::Stage,
 
     // Application Settings
@@ -59,7 +57,6 @@ impl AppConfig {
             // Application Identifiers
             APP_NAME: EnvVar::from_env::<String>(constants::APP_NAME)?,
             APP_VERSION: EnvVar::from_env::<String>(constants::APP_VERSION)?,
-            APP_SHORT_SHA: git::short_sha()?,
             APP_STAGE: stage::Stage::from_env()?,
             // Application Settings
             APP_LOG_LEVEL: log_level::LogLevel::from_env()?,

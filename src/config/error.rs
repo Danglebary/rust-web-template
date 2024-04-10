@@ -6,8 +6,6 @@ pub enum Error {
     ParseEnvVarEnumFailed(&'static str, String, [&'static str; 3]),
     #[error("failed to parse environment variable {0} with value '{1}'")]
     ParseEnvVarFailed(&'static str, String),
-    #[error("git command failed: {0}")]
-    GitCommandFailed(#[from] crate::util::git::Error),
 }
 
 pub type Result<T> = anyhow::Result<T, Error>;
