@@ -7,16 +7,22 @@ use axum::Router;
 
 // modules
 mod controller;
-mod error;
+pub mod error;
 mod fallback;
 mod layer;
+pub mod open_api;
 
 // self imports and exports
-pub use error::{ApiError, Result};
+pub use error::{ApiError, ApiResult, RouterError, RouterResult};
 
 // endregion: module imports and declarations
 
-pub fn build_router() -> Router {
+// This is not actually unused, but rust-analyzer doesn't understand because
+// this crate is a dependency of both the main application and the `gen-openapi` binary
+// I don't like seeing the warning, so I'm disabling it
+// TODO: replace anyhow::Result with custom errors
+#[allow(unused)]
+pub fn build_router() -> RouterResult<Router> {
     let mut router = Router::new();
 
     // Add API controller routes
@@ -28,5 +34,8 @@ pub fn build_router() -> Router {
     // Add layers
     router = layer::add_layers(router);
 
-    router
+    // Add Swagger UI
+    router = open_api::add_swagger_ui(router)?;
+
+    Ok(router)
 }

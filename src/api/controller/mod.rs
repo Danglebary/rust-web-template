@@ -7,10 +7,11 @@ use axum::{routing::get, Router};
 
 // modules
 mod health;
-mod hello_world;
+// all API controllers must be public for use with openapi
+pub mod hello_world;
 
 // self imports and exports
-pub use super::{ApiError, Result};
+pub use super::{ApiError, ApiResult};
 
 // endregion: module imports and declarations
 

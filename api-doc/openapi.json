@@ -1,0 +1,74 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "rust-web-template",
+        "description": "",
+        "license": {
+            "name": ""
+        },
+        "version": "0.1.0"
+    },
+    "paths": {
+        "/": {
+            "get": {
+                "tags": ["crate::api::controller::hello_world"],
+                "summary": "Simple hello world endpoint",
+                "description": "Simple hello world endpoint",
+                "operationId": "handler",
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/echo/{name}": {
+            "get": {
+                "tags": ["crate::api::controller::hello_world"],
+                "summary": "Simple echo endpoint that returns the name passed in the path",
+                "description": "Simple echo endpoint that returns the name passed in the path",
+                "operationId": "echo",
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "path",
+                        "description": "Name to echo back",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Echoed name",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request: name cannot be 'error'",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

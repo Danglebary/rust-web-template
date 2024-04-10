@@ -12,6 +12,16 @@ use axum::{http::StatusCode, response::IntoResponse};
 // endregion: module imports and declarations
 
 #[derive(thiserror::Error, Debug)]
+pub enum RouterError {
+    #[error("Failed to open openapi spec file: {0}")]
+    OpenApiFileError(#[from] std::io::Error),
+    #[error("Failed to parse openapi spec file: {0}")]
+    OpenApiParseError(#[from] serde_json::Error),
+}
+
+pub type RouterResult<T> = anyhow::Result<T, RouterError>;
+
+#[derive(thiserror::Error, Debug)]
 pub struct ApiError {
     pub code: StatusCode,
     pub message: String,
@@ -38,4 +48,4 @@ impl IntoResponse for ApiError {
     }
 }
 
-pub type Result<T> = anyhow::Result<T, ApiError>;
+pub type ApiResult<T> = anyhow::Result<T, ApiError>;
