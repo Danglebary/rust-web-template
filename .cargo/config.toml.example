@@ -6,9 +6,9 @@ SERVICE_APP_SHORT_SHA=""
 SERVICE_APP_STAGE=""
 
 # Application Configuration
-APP_LOG_LEVEL=""
-APP_HOST=""
-APP_PORT=""
+SERVICE_APP_LOG_LEVEL=""
+SERVICE_APP_HOST=""
+SERVICE_APP_PORT=""
 
 # Observability Settings
 SERVICE_OBSERVABILITY_API_KEY_HEADER="x-honeycomb-team"
