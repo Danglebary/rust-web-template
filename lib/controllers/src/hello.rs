@@ -30,7 +30,8 @@ pub async fn index() -> (StatusCode, &'static str) {
     get,
     path = "/echo/{name}",
     responses(
-        (status = 200, body = String)
+        (status = 200, body = String),
+        (status = 400, body = String)
     )
 )]
 pub async fn echo(Path(name): Path<String>) -> Result<Json<Value>> {
