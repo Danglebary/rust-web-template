@@ -1,7 +1,7 @@
 // region:    module imports and declarations
 
 // external crates
-use std::{net::IpAddr, sync::OnceLock};
+use std::{fs, net::IpAddr, sync::OnceLock};
 use tracing::Level;
 
 // internal imports
@@ -51,6 +51,10 @@ pub struct AppConfig {
 
 impl AppConfig {
     pub fn load_from_env() -> Result<Self> {
+        if fs::metadata(".env").is_ok() {
+            dotenv::dotenv().ok();
+        }
+
         Ok(Self {
             // Application Identifiers
             APP_NAME: EnvVar::from_env::<String>(constants::APP_NAME)?,
