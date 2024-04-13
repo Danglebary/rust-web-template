@@ -43,6 +43,17 @@ pub struct AppConfig {
     pub APP_HOST: IpAddr,
     pub APP_PORT: u16,
 
+    // Database Settings
+    pub DB_NAME: String,
+    pub DB_HOST: String,
+    pub DB_PORT: u16,
+    pub DB_USER: String,
+    pub DB_PASSWORD: String,
+    pub DB_POOL_MIN_CONNECTIONS: u32,
+    pub DB_POOL_MAX_CONNECTIONS: u32,
+    pub DB_IDLE_TIMEOUT_MILLIS: u64,
+    pub DB_AQUIRE_TIMEOUT_MILLIS: u64,
+
     // Observability Settings
     pub OBSERVABILITY_API_KEY_HEADER: String,
     pub OBSERVABILITY_API_KEY: String,
@@ -60,10 +71,23 @@ impl AppConfig {
             APP_NAME: EnvVar::from_env::<String>(constants::APP_NAME)?,
             APP_VERSION: EnvVar::from_env::<String>(constants::APP_VERSION)?,
             APP_STAGE: stage::Stage::from_env()?,
+
             // Application Settings
             APP_LOG_LEVEL: EnvVar::from_env::<Level>(constants::APP_LOG_LEVEL)?,
             APP_HOST: EnvVar::from_env::<IpAddr>(constants::APP_HOST)?,
             APP_PORT: EnvVar::from_env::<u16>(constants::APP_PORT)?,
+
+            // Database Settings
+            DB_NAME: EnvVar::from_env::<String>(constants::DB_NAME)?,
+            DB_HOST: EnvVar::from_env::<String>(constants::DB_HOST)?,
+            DB_PORT: EnvVar::from_env::<u16>(constants::DB_PORT)?,
+            DB_USER: EnvVar::from_env::<String>(constants::DB_USER)?,
+            DB_PASSWORD: EnvVar::from_env::<String>(constants::DB_PASSWORD)?,
+            DB_POOL_MIN_CONNECTIONS: EnvVar::from_env::<u32>(constants::DB_POOL_MIN_CONNECTIONS)?,
+            DB_POOL_MAX_CONNECTIONS: EnvVar::from_env::<u32>(constants::DB_POOL_MAX_CONNECTIONS)?,
+            DB_IDLE_TIMEOUT_MILLIS: EnvVar::from_env::<u64>(constants::DB_IDLE_TIMEOUT_MILLIS)?,
+            DB_AQUIRE_TIMEOUT_MILLIS: EnvVar::from_env::<u64>(constants::DB_AQUIRE_TIMEOUT_MILLIS)?,
+
             // Observability Settings
             OBSERVABILITY_API_KEY_HEADER: EnvVar::from_env::<String>(
                 constants::OBSERVABILITY_API_KEY_HEADER,

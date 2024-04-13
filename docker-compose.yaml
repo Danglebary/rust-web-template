@@ -2,14 +2,30 @@ services:
     api:
         build: .
         ports:
-            - "1337:1337"
+            - "${SERVICE_APP_PORT}:${SERVICE_APP_PORT}"
         environment:
-            SERVICE_APP_NAME: "rust-web-template"
-            SERVICE_APP_VERSION: "0.1.0"
-            SERVICE_APP_STAGE: "local"
-            SERVICE_APP_HOST: "0.0.0.0"
-            SERVICE_APP_PORT: 1337
-            SERVICE_APP_LOG_LEVEL: "info"
-            SERVICE_OBSERVABILITY_API_KEY_HEADER: "x-honeycomb-team"
-            SERVICE_OBSERVABILITY_API_KEY: "unknown"
-            SERVICE_OBSERVABILITY_API_INGEST_URL: "https://api.honeycomb.io/api/traces"
+            # Application Identifiers
+            SERVICE_APP_NAME: ${SERVICE_APP_NAME}
+            SERVICE_APP_VERSION: ${SERVICE_APP_VERSION}
+            SERVICE_APP_STAGE: ${SERVICE_APP_STAGE}
+
+            # Application Settings
+            SERVICE_APP_HOST: ${SERVICE_APP_HOST}
+            SERVICE_APP_PORT: ${SERVICE_APP_PORT}
+            SERVICE_APP_LOG_LEVEL: ${SERVICE_APP_LOG_LEVEL}
+
+            # Database Settings
+            SERVICE_DB_NAME: ${SERVICE_DB_NAME}
+            SERVICE_DB_HOST: ${SERVICE_DB_HOST}
+            SERVICE_DB_PORT: ${SERVICE_DB_PORT}
+            SERVICE_DB_USER: ${SERVICE_DB_USER}
+            SERVICE_DB_PASSWORD: ${SERVICE_DB_PASSWORD}
+            SERVICE_DB_POOL_MIN_CONNECTIONS: ${SERVICE_DB_POOL_MIN_CONNECTIONS}
+            SERVICE_DB_POOL_MAX_CONNECTIONS: ${SERVICE_DB_POOL_MAX_CONNECTIONS}
+            SERVICE_DB_IDLE_TIMEOUT_MILLIS: ${SERVICE_DB_IDLE_TIMEOUT_MILLIS}
+            SERVICE_DB_AQUIRE_TIMEOUT_MILLIS: ${SERVICE_DB_AQUIRE_TIMEOUT_MILLIS}
+
+            # Observability Settings
+            SERVICE_OBSERVABILITY_API_KEY_HEADER: ${SERVICE_OBSERVABILITY_API_KEY_HEADER}
+            SERVICE_OBSERVABILITY_API_KEY: ${SERVICE_OBSERVABILITY_API_KEY}
+            SERVICE_OBSERVABILITY_API_INGEST_URL: ${SERVICE_OBSERVABILITY_API_INGEST_URL}
