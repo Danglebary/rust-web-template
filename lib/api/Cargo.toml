@@ -1,0 +1,16 @@
+[package]
+name = "lib-api"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+# Internal
+lib-controllers = { path = "../controllers" }
+lib-trace = { path = "../trace" }
+
+# External
+anyhow = { workspace = true }
+axum = { workspace = true }
+serde_json = { workspace = true }
+thiserror = { workspace = true }
+utoipa-swagger-ui = { workspace = true, features = ["axum"] }

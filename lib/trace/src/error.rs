@@ -1,6 +1,9 @@
 // region:    module imports and declarations
 
 // external crates
+use anyhow::Result as AnyResult;
+use opentelemetry::trace::TraceError;
+use thiserror::Error as ThisError;
 use tracing::subscriber::SetGlobalDefaultError;
 
 // internal imports
@@ -11,12 +14,12 @@ use tracing::subscriber::SetGlobalDefaultError;
 
 // endregion: module imports and declarations
 
-#[derive(thiserror::Error, Debug)]
+#[derive(ThisError, Debug)]
 pub enum Error {
     #[error("failed to set global default subscriber: {0}")]
     SetGlobalDefaultSubscriberFailed(#[from] SetGlobalDefaultError),
     #[error("failed to initialize otlp tracing pipeline: {0}")]
-    OtlpTracingPipelineInitFailed(#[from] opentelemetry::trace::TraceError),
+    OtlpTracingPipelineInitFailed(#[from] TraceError),
 }
 
-pub type Result<T> = anyhow::Result<T, Error>;
+pub type Result<T> = AnyResult<T, Error>;

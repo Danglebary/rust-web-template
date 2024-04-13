@@ -1,32 +1,29 @@
 // region:    module imports and declarations
 
-// external crates
+// external crate
 use std::net::SocketAddr;
 
 // internal imports
+use lib_config::config;
 
 // modules
-mod api;
-mod config;
 mod error;
-mod trace;
 
 // self imports and exports
-pub use config::config;
-pub use error::{Error, Result};
+use error::*;
 
 // endregion: module imports and declarations
 
 #[tokio::main]
 async fn main() -> Result<()> {
     // Initialize application configuration
-    let config = config::config();
+    let config = config();
 
     // Initialize tracing
-    trace::init_tracing()?;
+    lib_trace::init_tracing()?;
 
     // Build the API router
-    let router = api::build_router().map_err(|err| Error::Router(err))?;
+    let router = lib_api::build_router()?;
 
     // Setup TCP listener and serve the API
     let addr = SocketAddr::from((config.APP_HOST, config.APP_PORT));

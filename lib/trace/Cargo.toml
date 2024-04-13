@@ -1,0 +1,23 @@
+[package]
+name = "lib-trace"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+# Internal
+lib-config = { path = "../config" }
+
+# External
+anyhow = "1.0.82"
+axum = "0.7.5"
+opentelemetry = { version = "0.22.0", features = ["trace", "metrics"] }
+opentelemetry-otlp = { version = "0.15.0", features = ["metrics", "tls-roots"] }
+opentelemetry-semantic-conventions = "0.14.0"
+opentelemetry_sdk = { version = "0.22.1", default-features = false, features = ["trace", "rt-tokio"] }
+thiserror = "1.0.58"
+tonic = "0.11.0"
+tower-http = { version = "0.5.2", features = ["trace"] }
+tracing = "0.1.40"
+tracing-opentelemetry = "0.23.0"
+tracing-subscriber = { version = "0.3.18", features = ["registry", "fmt"] }
+uuid = { version = "1.8.0", features = ["v4"] }

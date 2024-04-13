@@ -11,7 +11,7 @@ use axum::{http::StatusCode, Router};
 
 // endregion: module imports and declarations
 
-pub(super) fn add_fallback(router: Router) -> Router {
+pub fn add_fallback(router: Router) -> Router {
     router.fallback(|| async {
         (
             StatusCode::NOT_FOUND,

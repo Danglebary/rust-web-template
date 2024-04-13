@@ -3,12 +3,10 @@
 // external crates
 use axum::Router;
 use std::fs;
-use utoipa::OpenApi;
 use utoipa_swagger_ui::SwaggerUi;
-use utoipauto::utoipauto;
 
 // internal imports
-use super::RouterError;
+use crate::Result;
 
 // modules
 
@@ -16,14 +14,7 @@ use super::RouterError;
 
 // endregion: module imports and declarations
 
-/// This is only used by the `gen-openapi` binary
-#[utoipauto]
-#[derive(OpenApi)]
-#[openapi()]
-#[allow(unused)]
-struct ApiDoc;
-
-pub fn add_swagger_ui(router: Router) -> anyhow::Result<Router, RouterError> {
+pub fn add_swagger_ui(router: Router) -> Result<Router> {
     let docs = fs::read_to_string("./api-doc/openapi.json")?;
 
     // This is a hack to convert the JSON string to a serde_json::Value,
@@ -35,10 +26,4 @@ pub fn add_swagger_ui(router: Router) -> anyhow::Result<Router, RouterError> {
     );
 
     Ok(router)
-}
-
-/// This is only used by the `gen-openapi` binary
-#[allow(unused)]
-pub fn generate_docs() -> String {
-    ApiDoc::openapi().to_pretty_json().unwrap()
 }

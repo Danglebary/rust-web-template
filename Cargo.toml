@@ -2,51 +2,72 @@
 name = "rust-web-template"
 version = "0.1.0"
 edition = "2021"
-default-run = "api"
+default-run = "app"
 
-[lints.rust]
+# Main Binary
+[[bin]]
+name = "app"
+path = "./src/main.rs"
+
+[[bin]]
+name = "gen-api-docs"
+path = "./gen-api-docs/src/main.rs"
+
+[workspace]
+members = [
+    "gen-api-docs",
+    "lib/*",
+]
+
+[workspace.lints.rust]
 unsafe_code = "forbid"
 
-[lints.clippy]
+[workspace.lints.clippy]
 enum_glob_use = "deny"
 pedantic = "deny"
 nursery = "deny"
 unwrap_used = "deny"
 
-[profile.release]
+[workspace.profile.release]
 opt-level = 'z'   # Optimize for size
 lto = true        # Link time optimization
 codegen-units = 1 # Reduced to increase optimizations
 panic = "abort"   # Abort on panic
 strip = "symbols" # Strip symbols from binary
 
-# Main Binary
-[[bin]]
-name = "api"
-path = "./src/main.rs"
-
-# OpenAPI Generator Binary
-[[bin]]
-name = "gen-openapi"
-path = "./src/gen_openapi.rs"
-
 [dependencies]
-anyhow = "1.0.79"
-axum = "0.7.4"
-tower-http = { version = "0.5.1", features = ["trace"] }
-serde = { version = "1.0.196", features = ["derive"] }
-thiserror = "1.0.56"
-tokio = { version = "1.35.1", features = ["full"] }
-tracing = "0.1.40"
-tracing-subscriber = { version = "0.3.18", features = ["registry", "fmt"] }
-tracing-opentelemetry = "0.23.0"
-opentelemetry = { version = "0.22.0", features = ["trace", "metrics"] }
+# Internal
+lib-api = { path = "lib/api" }
+lib-config = { path = "lib/config" }
+lib-controllers = { path = "lib/controllers" }
+lib-trace = { path = "lib/trace" }
+
+# External
+anyhow = { workspace = true }
+axum =  { workspace = true }
+tokio = { workspace = true, features = ["full"] }
+thiserror = { workspace = true }
+utoipa = { workspace = true, features = ["axum_extras"] }
+utoipauto = { workspace = true }
+
+
+[workspace.dependencies]
+anyhow = "1.0.82"
+axum = "0.7.5"
+opentelemetry = "0.22.0"
+opentelemetry-otlp = "0.15.0"
+opentelemetry_sdk = "0.22.1"
 opentelemetry-semantic-conventions = "0.14.0"
-opentelemetry_sdk = { version = "0.22.1", default-features = false, features = ["trace", "rt-tokio"] }
-opentelemetry-otlp = { version = "0.15.0", features = ["metrics", "tls-roots"] }
-tonic = "0.11.0"
-uuid = { version = "1.8.0", features = ["v4"] }
-utoipa = { version = "4.2.0", features = ["axum_extras"] }
-utoipa-swagger-ui = { version = "6.0.0", features = ["axum"] }
-utoipauto = "0.1.10"
+serde = "1.0.196"
 serde_json = "1.0.115"
+tokio = { version = "1.37.0", features = ["full"] }
+tonic = "0.11.0"
+tower-http = "0.5.2"
+thiserror = "1.0.58"
+tracing = "0.1.40"
+tracing-opentelemetry = "0.23.0"
+tracing-subscriber = "0.3.18"
+utoipa = { version = "4.2.0", features = ["axum_extras"] }
+utoipa-swagger-ui = "6.0.0"
+utoipauto = "0.1.10"
+uuid = "1.8.0"

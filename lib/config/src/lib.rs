@@ -1,23 +1,21 @@
 // region:    module imports and declarations
 
 // external crates
-use serde::{Deserialize, Serialize};
 use std::{net::IpAddr, sync::OnceLock};
+use tracing::Level;
 
 // internal imports
 
 // modules
 mod constants;
-mod env_var;
+pub mod env_var;
 pub mod error;
-pub mod log_level;
 pub mod stage;
 
 // self imports and exports
-use env_var::EnvVar;
-pub use stage::Stage;
-
-pub use error::{Error, Result};
+pub use env_var::*;
+pub use error::*;
+pub use stage::*;
 
 // endregion: module imports and declarations
 
@@ -33,7 +31,7 @@ pub fn config() -> &'static AppConfig {
 }
 
 #[allow(non_snake_case)]
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Debug, Clone)]
 pub struct AppConfig {
     // Application Identifiers
     pub APP_NAME: String,
@@ -41,7 +39,7 @@ pub struct AppConfig {
     pub APP_STAGE: stage::Stage,
 
     // Application Settings
-    pub APP_LOG_LEVEL: log_level::LogLevel,
+    pub APP_LOG_LEVEL: Level,
     pub APP_HOST: IpAddr,
     pub APP_PORT: u16,
 
@@ -59,7 +57,7 @@ impl AppConfig {
             APP_VERSION: EnvVar::from_env::<String>(constants::APP_VERSION)?,
             APP_STAGE: stage::Stage::from_env()?,
             // Application Settings
-            APP_LOG_LEVEL: log_level::LogLevel::from_env()?,
+            APP_LOG_LEVEL: EnvVar::from_env::<Level>(constants::APP_LOG_LEVEL)?,
             APP_HOST: EnvVar::from_env::<IpAddr>(constants::APP_HOST)?,
             APP_PORT: EnvVar::from_env::<u16>(constants::APP_PORT)?,
             // Observability Settings

@@ -1,13 +1,9 @@
 // region:    module imports and declarations
 
 // external crates
-use serde::{Deserialize, Serialize};
 
 // internal imports
-use super::{
-    constants,
-    error::{Error, Result},
-};
+use crate::{constants, Error, Result};
 
 // modules
 
@@ -15,7 +11,7 @@ use super::{
 
 // endregion: module imports and declarations
 
-#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Eq)]
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub enum Stage {
     Local,
     Staging,

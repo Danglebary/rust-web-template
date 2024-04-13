@@ -1,0 +1,9 @@
+[package]
+name = "gen-api-docs"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+lib-controllers = { path = "../lib/controllers" }
+utoipa = { workspace = true, features = ["axum_extras"] }
+utoipauto = { workspace = true }
