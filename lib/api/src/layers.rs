@@ -12,7 +12,5 @@ use axum::Router;
 // endregion: module imports and declarations
 
 pub(crate) fn add_layers(router: Router) -> Router {
-    let router = lib_trace::add_trace_layer(router);
-
-    router
+    lib_trace::add_trace_layer(router)
 }

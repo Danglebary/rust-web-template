@@ -33,14 +33,14 @@ pub async fn new_test_pool() -> Db {
 /// This will:
 /// - Create the test database and user
 /// - Run the migrations against the test database
-async fn root_setup() -> () {
+async fn root_setup() {
     let root_pool = root_pool().await;
 
     let init_str = std::fs::read_to_string("../../migrations/dev_only/init.sql").unwrap();
     let statements = init_str
         .lines()
         .filter(|line| !line.contains("--") && !line.is_empty())
-        .map(|line| line.trim().replace(";", ""))
+        .map(|line| line.trim().replace(';', ""))
         .collect::<Vec<String>>();
 
     for statement in statements {
@@ -76,5 +76,5 @@ async fn new_pool(url: String) -> Db {
         .acquire_timeout(std::time::Duration::from_millis(500))
         .connect(&url)
         .await
-        .expect(format!("Failed to create pool with url: {url}").as_str())
+        .unwrap_or_else(|_| panic!("Failed to create pool with url: {url}"))
 }
