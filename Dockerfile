@@ -25,9 +25,10 @@ RUN mkdir ./api-doc
 RUN cargo run --bin gen-api-docs
 
 # Run build to cache dependencies
-RUN cargo build --bin app --release && rm ./src/*.rs
+RUN cargo build --bin app --release && rm ./src && rm ./lib
 
 # Copy the source code again
+COPY ./lib ./lib
 COPY ./src ./src
 
 # Build for release

@@ -4,7 +4,6 @@
 use std::net::SocketAddr;
 
 // internal imports
-use lib_config::config;
 
 // modules
 mod error;
@@ -17,7 +16,7 @@ use error::*;
 #[tokio::main]
 async fn main() -> Result<()> {
     // Initialize application configuration
-    let config = config();
+    let config = lib_config::config();
 
     // Initialize tracing
     lib_trace::init_tracing()?;

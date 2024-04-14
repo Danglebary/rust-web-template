@@ -1,6 +1,7 @@
 // region:    module imports and declarations
 
 // external crates
+use std::io::Error as IoError;
 use anyhow::Result as AnyResult;
 use thiserror::Error as ThisError;
 
@@ -22,7 +23,7 @@ pub enum Error {
     #[error("failed to load application configuration: {0:?}")]
     Config(#[from] ConfigError),
     #[error("failed to bind listener to address: {0:?}")]
-    ListenerBind(#[from] std::io::Error),
+    ListenerBind(#[from] IoError),
     #[error("failed to initialize tracing: {0:?}")]
     Trace(#[from] TraceError),
 }
