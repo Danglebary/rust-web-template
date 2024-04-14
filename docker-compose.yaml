@@ -3,6 +3,8 @@ services:
         build: .
         ports:
             - "1337:1337"
+        depends_on:
+            - test-db
         environment:
             # Application Identifiers
             SERVICE_APP_NAME: ${SERVICE_APP_NAME}
@@ -16,8 +18,8 @@ services:
 
             # Database Settings
             SERVICE_DB_NAME: ${SERVICE_DB_NAME}
-            SERVICE_DB_HOST: ${SERVICE_DB_HOST}
-            SERVICE_DB_PORT: ${SERVICE_DB_PORT}
+            SERVICE_DB_HOST: test-db # This is the name of the service in the docker-compose file
+            SERVICE_DB_PORT: 3306 # This is the port of the db inside the container network
             SERVICE_DB_USER: ${SERVICE_DB_USER}
             SERVICE_DB_PASSWORD: ${SERVICE_DB_PASSWORD}
             SERVICE_DB_POOL_MIN_CONNECTIONS: ${SERVICE_DB_POOL_MIN_CONNECTIONS}

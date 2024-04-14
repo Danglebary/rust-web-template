@@ -110,7 +110,7 @@ pub async fn update(
 #[tracing::instrument]
 #[utoipa::path(
     delete,
-    path = "/v1 /todo/{id}",
+    path = "/v1/todo/{id}",
     responses(
         (status = 200, body = String),
         (status = 404, body = String),

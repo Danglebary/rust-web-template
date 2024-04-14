@@ -25,7 +25,7 @@ RUN mkdir ./api-doc
 RUN cargo run --bin gen-api-docs
 
 # Run build to cache dependencies
-RUN cargo build --bin app --release && rm ./src && rm ./lib
+RUN cargo build --bin app --release && rm -rf ./src && rm -rf ./lib
 
 # Copy the source code again
 COPY ./lib ./lib
@@ -33,12 +33,13 @@ COPY ./src ./src
 
 # Build for release
 RUN rm ./target/release/deps/app*
+RUN rm ./target/release/deps/lib_*
 RUN cargo build --bin app --release
 
 # final base
 FROM scratch
 
-# TODO: add labels
+# TODO: maybe add labels?
 
 # Copy the built binary and API documentation
 COPY --from=builder ./build/api-doc ./api-doc
