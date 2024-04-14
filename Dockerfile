@@ -3,9 +3,9 @@ FROM rust:1.77-alpine as builder
 # Install the required dependencies
 RUN apk add --no-cache musl-dev openssl-dev openssl-libs-static pkgconf
 
-# Set `SYSROOT` to a dummy path (default is /usr) because pkg-config-rs *always*
-# links those located in that path dynamically but we want static linking, c.f.
-# https://github.com/rust-lang/pkg-config-rs/blob/54325785816695df031cef3b26b6a9a203bbc01b/src/lib.rs#L613
+# `SYSROOT` is defaulted to `/usr`, but pkg-config-rs will always dynamically link
+# to the libraries found there. Since we want to statically link all dependencies,
+# we need to set `SYSROOT` to a dummy directory.
 ENV SYSROOT=/dummy
 
 # Set the working directory
