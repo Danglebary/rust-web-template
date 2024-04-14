@@ -5,7 +5,7 @@ edition = "2021"
 
 [dependencies]
 # Internal
-lib-controllers = { path = "../controllers" }
+lib-controller = { path = "../controller" }
 lib-trace = { path = "../trace" }
 
 # External

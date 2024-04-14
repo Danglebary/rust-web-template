@@ -39,7 +39,7 @@ strip = "symbols" # Strip symbols from binary
 # Internal
 lib-api = { path = "lib/api" }
 lib-config = { path = "lib/config" }
-lib-controllers = { path = "lib/controllers" }
+lib-controller = { path = "lib/controller" }
 lib-trace = { path = "lib/trace" }
 
 # External

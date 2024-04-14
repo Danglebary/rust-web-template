@@ -4,6 +4,9 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-lib-controllers = { path = "../lib/controllers" }
+# Internal
+lib-controller = { path = "../lib/controller" }
+
+# External
 utoipa = { workspace = true, features = ["axum_extras"] }
 utoipauto = { workspace = true }

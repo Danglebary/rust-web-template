@@ -20,7 +20,7 @@ pub fn build_router() -> Result<Router> {
     let mut router = Router::new();
 
     // Add API controller routes
-    router = lib_controllers::add_routes(router);
+    router = lib_controller::add_routes(router);
 
     // Add fallback route
     router = fallback::add_fallback(router);

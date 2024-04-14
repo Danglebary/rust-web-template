@@ -12,7 +12,7 @@
     "/": {
       "get": {
         "tags": [
-          "lib_controllers::hello"
+          "lib_controller::hello"
         ],
         "operationId": "index",
         "responses": {
@@ -32,7 +32,7 @@
     "/echo/{name}": {
       "get": {
         "tags": [
-          "lib_controllers::hello"
+          "lib_controller::hello"
         ],
         "operationId": "echo",
         "parameters": [
