@@ -1,0 +1,13 @@
+[package]
+name = "lib-store"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+# Internal
+lib-config = { path = "../config" }
+
+# External
+anyhow = { workspace = true }
+sqlx = { workspace = true, features = ["mysql", "runtime-tokio"] }
+thiserror = { workspace = true }
