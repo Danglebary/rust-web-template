@@ -18,7 +18,7 @@ use lib_store::Error as StoreError;
 #[derive(ThisError, Debug)]
 pub enum Error {
     #[error("Database store error: {0}")]
-    DbStore(#[from] StoreError),
+    Store(#[from] StoreError),
 
     #[error("Database error: {0}")]
     Db(#[from] DbError),

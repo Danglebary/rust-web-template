@@ -1,24 +1,20 @@
 // region:    module imports and declarations
 
 // external crates
-use axum::{
-    routing::{get, post},
-    Router,
-};
+use axum::{routing::get, Router};
 
 // internal imports
+use lib_model::ModelManager;
 
 // modules
 pub mod error;
 mod health;
 
 // Any controller that utilizes `utoipa` must be public
-pub mod hello;
 pub mod todo;
 
 // self imports and exports
 pub use error::*;
-use lib_model::ModelManager;
 
 // endregion: module imports and declarations
 
@@ -32,13 +28,14 @@ pub async fn add_routes(router: Router) -> Router {
         .route("/healthz", get(health::healthz))
         .route("/readyz", get(health::readyz));
 
-    // Create API controller router
-    let mut api_v1 = Router::new()
-        .route("/", get(hello::index))
-        .route("/echo/:name", get(hello::echo));
+    // Add API controllers
+    let mut api_v1 = Router::new();
 
-    api_v1 = api_v1.route("/todo", post(todo::create_todo).with_state(mm.clone()));
+    let todo_routes = todo::get_routes();
+
+    // Merge all API controllers
+    api_v1 = api_v1.nest("/todo", todo_routes);
 
     // Nest API controllers under /v1
-    router.nest("/v1", api_v1)
+    router.nest("/v1", api_v1.with_state(mm.clone()))
 }

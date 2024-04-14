@@ -38,3 +38,11 @@ impl IntoResponse for Todo {
         Json(self).into_response()
     }
 }
+
+pub struct Todos(pub Vec<Todo>);
+
+impl IntoResponse for Todos {
+    fn into_response(self) -> Response {
+        Json(self.0).into_response()
+    }
+}

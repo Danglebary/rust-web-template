@@ -1,7 +1,7 @@
 // region:    module imports and declarations
 
 // external crates
-use anyhow::Result as AnyResult;
+use anyhow::{Error as AnyError, Result as AnyResult};
 use axum::{
     http::StatusCode,
     response::{IntoResponse, Response},
@@ -26,7 +26,7 @@ impl Error {
         Self { status, message }
     }
 
-    pub fn from_internal_error(error: anyhow::Error) -> Self {
+    pub fn from_internal_error(error: AnyError) -> Self {
         Self {
             status: StatusCode::INTERNAL_SERVER_ERROR,
             message: error.to_string(),
