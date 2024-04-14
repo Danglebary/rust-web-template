@@ -1,41 +1,50 @@
-FROM rustlang/rust:nightly-buster-slim as builder
+FROM rust:1.77-alpine as builder
 
-RUN apt update && apt install -y pkg-config libssl-dev
-# RUN apt-get update && apt-get install && apt-get install pkg-config
+# Install the required dependencies
+RUN apk add --no-cache musl-dev openssl-dev openssl-libs-static pkgconf
 
-# create a new empty shell project
-RUN USER=root cargo new --bin rust-web-template
-WORKDIR /rust-web-template
+# Set `SYSROOT` to a dummy path (default is /usr) because pkg-config-rs *always*
+# links those located in that path dynamically but we want static linking, c.f.
+# https://github.com/rust-lang/pkg-config-rs/blob/54325785816695df031cef3b26b6a9a203bbc01b/src/lib.rs#L613
+ENV SYSROOT=/dummy
 
-# copy over your manifests
+# Set the working directory
+WORKDIR /build
+
+# Copy the Cargo.toml and Cargo.lock files
 COPY ./Cargo.lock ./Cargo.lock
 COPY ./Cargo.toml ./Cargo.toml
 
-# copy your source tree
+# Copy the source code
 COPY ./src ./src
+COPY ./lib ./lib
+COPY ./gen-api-docs ./gen-api-docs
 
-# generate openapi spec
+# Generate the API documentation
 RUN mkdir ./api-doc
-RUN cargo run --bin gen-openapi
+RUN cargo run --bin gen-api-docs
 
-# this build step will cache your dependencies
-RUN cargo build --release
-RUN rm src/*.rs
+# Run build to cache dependencies
+RUN cargo build --bin app --release && rm ./src/*.rs
 
-# copy your source tree
+# Copy the source code again
 COPY ./src ./src
 
-# build for release
-RUN rm ./target/release/deps/api*
-RUN cargo build --release
+# Build for release
+RUN rm ./target/release/deps/app*
+RUN cargo build --bin app --release
 
-# our final base
-FROM debian:buster-slim
+# final base
+FROM scratch
 
-# copy the build artifact from the build stage
-COPY --from=builder /rust-web-template/target/release/api .
-COPY --from=builder /rust-web-template/api-doc/openapi.json ./api-doc/openapi.json
+# TODO: add labels
 
+# Copy the built binary and API documentation
+COPY --from=builder ./build/api-doc ./api-doc
+COPY --from=builder ./build/target/release/app ./app
+
+# Expose the port
 EXPOSE 1337
 
-CMD ["./api"]
+# Run the binary
+CMD ["./app"]

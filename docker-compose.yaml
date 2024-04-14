@@ -1,8 +1,8 @@
 services:
-    api:
+    app:
         build: .
         ports:
-            - "${SERVICE_APP_PORT}:${SERVICE_APP_PORT}"
+            - "1337:1337"
         environment:
             # Application Identifiers
             SERVICE_APP_NAME: ${SERVICE_APP_NAME}

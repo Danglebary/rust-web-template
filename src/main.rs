@@ -28,6 +28,7 @@ async fn main() -> Result<()> {
     // Setup TCP listener and serve the API
     let addr = SocketAddr::from((config.APP_HOST, config.APP_PORT));
     let listener = tokio::net::TcpListener::bind(&addr).await?;
+
     axum::serve(listener, router).await?;
 
     Ok(())
