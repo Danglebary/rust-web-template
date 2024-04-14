@@ -13,7 +13,7 @@ use utoipauto::utoipauto;
 
 // endregion: module imports and declarations
 
-#[utoipauto(paths = "./lib/controller/src from lib_controller")]
+#[utoipauto(paths = "./lib/controller/src from lib_controller, ./lib/model/src from lib_model")]
 #[derive(OpenApi)]
 #[openapi()]
 struct ApiDoc;

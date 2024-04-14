@@ -1,0 +1,23 @@
+[package]
+name = "lib-model"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+# Internal
+lib-store = { path = "../store" }
+
+# External
+anyhow = { workspace = true }
+axum = { workspace = true }
+chrono = { workspace = true }
+serde = { workspace = true, features = ["derive"] }
+serde_valid = { workspace = true }
+sqlx = { workspace = true, features = ["mysql", "time", "chrono"] }
+thiserror = { workspace = true }
+utoipa = { workspace = true , features = ["chrono"] }
+
+[dev-dependencies]
+tokio = { workspace = true, features = ["full"] }
+serial_test = { workspace = true }
+test-case = { workspace = true }

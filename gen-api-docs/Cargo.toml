@@ -6,6 +6,7 @@ edition = "2021"
 [dependencies]
 # Internal
 lib-controller = { path = "../lib/controller" }
+lib-model = { path = "../lib/model" }
 
 # External
 utoipa = { workspace = true, features = ["axum_extras"] }

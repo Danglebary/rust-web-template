@@ -9,6 +9,7 @@ use lib_config::config;
 
 // modules
 mod error;
+pub mod test;
 
 // self imports and exports
 pub use error::*;

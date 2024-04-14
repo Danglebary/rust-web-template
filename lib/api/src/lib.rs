@@ -16,11 +16,11 @@ pub use error::*;
 
 // endregion: module imports and declarations
 
-pub fn build_router() -> Result<Router> {
+pub async fn build_router() -> Result<Router> {
     let mut router = Router::new();
 
     // Add API controller routes
-    router = lib_controller::add_routes(router);
+    router = lib_controller::add_routes(router).await;
 
     // Add fallback route
     router = fallback::add_fallback(router);

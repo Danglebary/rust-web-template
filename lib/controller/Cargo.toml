@@ -4,6 +4,10 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
+# Internal
+lib-model = { path = "../model" }
+
+# External
 anyhow = { workspace = true } 
 axum = { workspace = true, features = ["json"] }
 serde = { workspace = true, features = ["derive"] }

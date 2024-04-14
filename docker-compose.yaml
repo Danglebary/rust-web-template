@@ -29,3 +29,12 @@ services:
             SERVICE_OBSERVABILITY_API_KEY_HEADER: ${SERVICE_OBSERVABILITY_API_KEY_HEADER}
             SERVICE_OBSERVABILITY_API_KEY: ${SERVICE_OBSERVABILITY_API_KEY}
             SERVICE_OBSERVABILITY_API_INGEST_URL: ${SERVICE_OBSERVABILITY_API_INGEST_URL}
+    test-db:
+        image: mariadb:10.6
+        environment:
+            MYSQL_ROOT_PASSWORD: "super_secret_password"
+            MYSQL_DATABASE: ${SERVICE_DB_NAME}
+            MYSQL_USER: ${SERVICE_DB_USER}
+            MYSQL_PASSWORD: ${SERVICE_DB_PASSWORD}
+        ports:
+            - "3303:3306"

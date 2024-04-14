@@ -23,7 +23,7 @@ async fn main() -> Result<()> {
     lib_trace::init_tracing()?;
 
     // Build the API router
-    let router = lib_api::build_router()?;
+    let router = lib_api::build_router().await?;
 
     // Setup TCP listener and serve the API
     let addr = SocketAddr::from((config.APP_HOST, config.APP_PORT));

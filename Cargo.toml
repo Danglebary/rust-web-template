@@ -9,6 +9,7 @@ default-run = "app"
 name = "app"
 path = "./src/main.rs"
 
+# API Documentation Generator
 [[bin]]
 name = "gen-api-docs"
 path = "./gen-api-docs/src/main.rs"
@@ -41,6 +42,7 @@ lib-api = { path = "lib/api" }
 lib-config = { path = "lib/config" }
 lib-controller = { path = "lib/controller" }
 lib-trace = { path = "lib/trace" }
+lib-model = { path = "lib/model" }
 
 # External
 anyhow = { workspace = true }
@@ -54,6 +56,7 @@ utoipauto = { workspace = true }
 [workspace.dependencies]
 anyhow = "1.0.82"
 axum = "0.7.5"
+chrono = { version = "0.4.37", features = ["serde"] }
 dotenv = "0.15.0"
 opentelemetry = "0.22.0"
 opentelemetry-otlp = "0.15.0"
@@ -61,7 +64,10 @@ opentelemetry_sdk = "0.22.1"
 opentelemetry-semantic-conventions = "0.14.0"
 serde = "1.0.196"
 serde_json = "1.0.115"
+serde_valid = "0.19.0"
+serial_test = "3.0.0"
 sqlx = "0.7.4"
+test-case = "3.3.1"
 tokio = { version = "1.37.0", features = ["full"] }
 tonic = "0.11.0"
 tower-http = "0.5.2"
