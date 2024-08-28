@@ -1,8 +1,8 @@
 // region:    module imports and declarations
 
 // external crates
-use std::io::Error as IoError;
 use anyhow::Result as AnyResult;
+use std::io::Error as IoError;
 use thiserror::Error as ThisError;
 
 // internal imports

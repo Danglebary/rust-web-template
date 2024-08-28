@@ -37,5 +37,5 @@ pub async fn add_routes(router: Router) -> Router {
     api_v1 = api_v1.nest("/todo", todo_routes);
 
     // Nest API controllers under /v1
-    router.nest("/v1", api_v1.with_state(mm.clone()))
+    router.nest("/v1", api_v1.with_state(mm))
 }

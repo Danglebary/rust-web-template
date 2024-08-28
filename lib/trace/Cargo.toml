@@ -8,16 +8,17 @@ edition = "2021"
 lib-config = { path = "../config" }
 
 # External
-anyhow = "1.0.82"
-axum = "0.7.5"
-opentelemetry = { version = "0.22.0", features = ["trace", "metrics"] }
-opentelemetry-otlp = { version = "0.15.0", features = ["metrics", "tls-roots"] }
-opentelemetry-semantic-conventions = "0.14.0"
-opentelemetry_sdk = { version = "0.22.1", default-features = false, features = ["trace", "rt-tokio"] }
-thiserror = "1.0.58"
+anyhow = { workspace = true }
+axum = { workspace = true }
+opentelemetry = { workspace = true, features = ["trace", "metrics"] }
+opentelemetry-otlp = { workspace = true, features = ["metrics", "tls-roots"] }
+opentelemetry-semantic-conventions = { workspace = true }
+opentelemetry_sdk = { workspace = true, default-features = false, features = ["trace", "rt-tokio"] }
+thiserror = { workspace = true }
 tonic = "0.11.0"
-tower-http = { version = "0.5.2", features = ["trace"] }
-tracing = "0.1.40"
-tracing-opentelemetry = "0.23.0"
-tracing-subscriber = { version = "0.3.18", features = ["registry", "fmt"] }
-uuid = { version = "1.8.0", features = ["v4"] }
+tower-http = { workspace = true, features = ["trace"] }
+tracing = { workspace = true }
+tracing-opentelemetry = { workspace = true }
+tracing-subscriber = { workspace = true, features = ["registry", "fmt"] }
+uuid = { workspace = true, features = ["v4"] }
+serde = { workspace = true, features = ["derive"] }
