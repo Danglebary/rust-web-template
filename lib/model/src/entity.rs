@@ -65,7 +65,7 @@ where
                 Ok(entity) => Ok(entity),
                 Err(err) => {
                     error!("{}::get_by_id: sqlx error: {}", Self::SERVICE_NAME, err);
-                    Err(err.into())
+                    Err(err)
                 }
             }
         }
