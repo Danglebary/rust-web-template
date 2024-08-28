@@ -54,28 +54,28 @@ utoipauto = { workspace = true }
 
 
 [workspace.dependencies]
-anyhow = "1.0.82"
+anyhow = "1.0.86"
 axum = "0.7.5"
-chrono = { version = "0.4.37", features = ["serde"] }
-dotenv = "0.15.0"
-opentelemetry = "0.22.0"
-opentelemetry-otlp = "0.15.0"
-opentelemetry_sdk = "0.22.1"
-opentelemetry-semantic-conventions = "0.14.0"
-serde = "1.0.196"
-serde_json = "1.0.115"
-serde_valid = "0.19.0"
-serial_test = "3.0.0"
+chrono = { version = "0.4.38", features = ["serde"] }
+dotenvy = "0.15.7"
+opentelemetry = "0.24.0"
+opentelemetry-otlp = "0.17.0"
+opentelemetry_sdk = "0.24.1"
+opentelemetry-semantic-conventions = "0.16.0"
+serde = "1.0.209"
+serde_json = "1.0.127"
+serde_valid = "0.24.0"
+serial_test = "3.1.1"
 sqlx = "0.7.4"
 test-case = "3.3.1"
-tokio = { version = "1.37.0", features = ["full"] }
-tonic = "0.11.0"
+tokio = { version = "1.39.3", features = ["full"] }
+tonic = "0.12.2"
 tower-http = "0.5.2"
-thiserror = "1.0.58"
+thiserror = "1.0.63"
 tracing = "0.1.40"
-tracing-opentelemetry = "0.23.0"
+tracing-opentelemetry = "0.25.0"
 tracing-subscriber = "0.3.18"
-utoipa = { version = "4.2.0", features = ["axum_extras"] }
-utoipa-swagger-ui = "6.0.0"
-utoipauto = "0.1.10"
-uuid = "1.8.0"
+utoipa = { version = "4.2.3", features = ["axum_extras"] }
+utoipa-swagger-ui = "7.1.0"
+utoipauto = "0.1.14"
+uuid = "1.10.0"

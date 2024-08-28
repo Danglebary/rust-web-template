@@ -1,7 +1,7 @@
-FROM rust:1.77-alpine as builder
+FROM rust:1.79-alpine as builder
 
 # Install the required dependencies
-RUN apk add --no-cache musl-dev openssl-dev openssl-libs-static pkgconf
+RUN apk add --no-cache musl-dev openssl-dev openssl-libs-static pkgconf curl
 
 # `SYSROOT` is defaulted to `/usr`, but pkg-config-rs will always dynamically link
 # to the libraries found there. Since we want to statically link all dependencies,
