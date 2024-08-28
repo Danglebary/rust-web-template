@@ -4,6 +4,7 @@
 use axum::response::{IntoResponse, Json, Response};
 use chrono::{serde::ts_milliseconds, DateTime, Utc};
 use serde::Serialize;
+use sqlb::Fields;
 use sqlx::FromRow;
 use utoipa::ToSchema;
 
@@ -20,7 +21,7 @@ pub use for_update::TodoForUpdate;
 
 // endregion: module imports and declarations
 
-#[derive(Debug, Serialize, Clone, FromRow, ToSchema)]
+#[derive(Debug, Serialize, Clone, Fields, FromRow, ToSchema)]
 pub struct Todo {
     pub id: i64,
     pub title: String,

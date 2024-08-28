@@ -39,7 +39,7 @@ pub fn add_trace_layer(router: Router) -> Router {
         match status {
             200..=299 => info!(parent: span, message = "request successful", status = status, ?latency, headers = ?res.headers()),
             400..=499 => warn!(parent: span, message = "request client error", status = status, ?latency, headers = ?res.headers()),
-            _ => warn!(parent: span, message = "request unknown status", status = status, ?latency),
+            _ => {},
         }
     })
     .on_failure(|error: ServerErrorsFailureClass, latency: Duration, span: &Span| {

@@ -2,11 +2,9 @@
 
 // external crates
 
-use serde_valid::Validate;
-
 // internal imports
 use super::{Todo, TodoForCreate, TodoForUpdate};
-use crate::{entity::EntityService, ModelManager, Result};
+use crate::entity::EntityService;
 
 // modules
 
@@ -18,76 +16,12 @@ pub struct TodoService;
 
 impl EntityService<Todo, TodoForCreate, TodoForUpdate> for TodoService {
     const TABLE: &'static str = "todo";
-
-    async fn create(mm: ModelManager, data: TodoForCreate) -> Result<Todo> {
-        // validate the data
-        data.validate()?;
-
-        let db = mm.db();
-
-        // TODO: We should be able to use the `INSERT INTO ... RETURNING *` syntax here,
-        // but there is a bug in MariaDB that is prTodoing sqlx from returning the inserted row.
-        // tl;dr: MariaDB's COM_STMT_PREPARE response is responding with a zero-length column count,
-        // even though the column names are present in the response. This is causing sqlx to not
-        // be able to parse the response.
-        // slqx issue: https://github.com/launchbadge/sqlx/issues/1530
-        // MariaDB issue: https://jira.mariadb.org/browse/MDEV-27013
-        // Note: The MariaDB issue was opened in 2021, and it's still open as of 04/2024
-        // So, for now, we'll just do two queries to get the inserted row.
-
-        // create the todo
-        // TODO: fixme
-        let (id,) = sqlx::query_as::<_, (i64,)>("INSERT INTO todo (title) VALUES (?) RETURNING id")
-            .bind(data.title)
-            .fetch_one(db)
-            .await?;
-
-        // get the todo
-        let todo = sqlx::query_as::<_, Todo>("SELECT * FROM todo WHERE id = ?")
-            .bind(id)
-            .fetch_one(db)
-            .await?;
-
-        Ok(todo)
-    }
-
-    async fn update(mm: ModelManager, id: i64, data: TodoForUpdate) -> Result<Todo> {
-        // validate the data
-        data.validate()?;
-
-        let db = mm.db();
-
-        // setup transaction
-        let mut tx = db.begin().await?;
-
-        let _ = sqlx::query("SELECT * FROM todo WHERE id = ?")
-            .bind(id)
-            .fetch_one(&mut *tx)
-            .await?;
-
-        // update the todo
-        let _ = sqlx::query("UPDATE todo SET title = ?, completed = ? WHERE id = ?")
-            .bind(data.title)
-            .bind(data.completed)
-            .bind(id)
-            .execute(&mut *tx)
-            .await?;
-
-        // get the todo
-        let todo = sqlx::query_as::<_, Todo>("SELECT * FROM todo WHERE id = ?")
-            .bind(id)
-            .fetch_one(&mut *tx)
-            .await?;
-
-        // commit the transaction
-        tx.commit().await?;
-
-        Ok(todo)
-    }
+    const SERVICE_NAME: &'static str = "TodoService";
 }
 
 #[cfg(test)]
 mod tests {
+    use crate::ModelManager;
     use serial_test::serial;
     use test_case::test_case;
 

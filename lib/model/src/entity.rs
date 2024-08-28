@@ -4,8 +4,10 @@
 use axum::Json;
 use serde::{de::DeserializeOwned, Serialize};
 use serde_valid::Validate;
+use sqlb::HasFields;
 use sqlx::{postgres::PgRow, FromRow};
 use std::future::Future;
+use tracing::error;
 
 // internal imports
 use super::{Error, ModelManager, Result};
@@ -19,22 +21,53 @@ use super::{Error, ModelManager, Result};
 pub trait EntityService<E, C, U>
 where
     E: for<'r> FromRow<'r, PgRow> + Unpin + Send,
-    C: EntityForCreate,
-    U: EntityForUpdate,
+    E: HasFields,
+    C: EntityForCreate + HasFields + Send,
+    U: EntityForUpdate + HasFields + Send,
 {
     const TABLE: &'static str;
+    const SERVICE_NAME: &'static str;
+
+    fn create(mm: ModelManager, data: C) -> impl Future<Output = Result<E>> + Send {
+        async move {
+            let db = mm.db();
+
+            let fields = data.not_none_fields();
+
+            match sqlb::insert()
+                .table(Self::TABLE)
+                .data(fields)
+                .returning(E::field_names())
+                .fetch_one(db)
+                .await
+            {
+                Ok(entity) => Ok(entity),
+                Err(err) => {
+                    error!("{}::create: sqlx error: {}", Self::SERVICE_NAME, err);
+                    return Err(err.into());
+                }
+            }
+        }
+    }
 
     fn get_by_id(mm: ModelManager, id: i64) -> impl Future<Output = Result<E>> + Send {
         async move {
             let db = mm.db();
 
-            let sql = format!("SELECT * FROM {} WHERE id = ?", Self::TABLE);
-            let entity: E = sqlx::query_as(&sql)
-                .bind(id)
+            match sqlb::select()
+                .table(Self::TABLE)
+                .columns(E::field_names())
+                .and_where_eq("id", id)
                 .fetch_optional(db)
                 .await?
-                .ok_or(Error::EntityNotFound(Self::TABLE, id))?;
-            Ok(entity)
+                .ok_or(Error::EntityNotFound(Self::TABLE, id))
+            {
+                Ok(entity) => Ok(entity),
+                Err(err) => {
+                    error!("{}::get_by_id: sqlx error: {}", Self::SERVICE_NAME, err);
+                    return Err(err.into());
+                }
+            }
         }
     }
 
@@ -42,24 +75,61 @@ where
         async move {
             let db = mm.db();
 
-            let sql = format!("SELECT * FROM {}", Self::TABLE);
-            let entities: Vec<E> = sqlx::query_as(&sql).fetch_all(db).await?;
-
-            Ok(Json(entities))
+            match sqlb::select()
+                .table(Self::TABLE)
+                .columns(E::field_names())
+                .order_by("id")
+                .fetch_all(db)
+                .await
+            {
+                Ok(entities) => Ok(Json(entities)),
+                Err(err) => {
+                    error!("{}::list: sqlx error: {}", Self::SERVICE_NAME, err);
+                    return Err(err.into());
+                }
+            }
         }
     }
 
-    fn create(mm: ModelManager, data: C) -> impl Future<Output = Result<E>> + Send;
-    fn update(mm: ModelManager, id: i64, data: U) -> impl Future<Output = Result<E>> + Send;
+    fn update(mm: ModelManager, id: i64, data: U) -> impl Future<Output = Result<E>> + Send {
+        async move {
+            let db = mm.db();
+
+            let fields = data.not_none_fields();
+
+            match sqlb::update()
+                .table(Self::TABLE)
+                .and_where_eq("id", id)
+                .data(fields)
+                .returning(E::field_names())
+                .fetch_one(db)
+                .await
+            {
+                Ok(entity) => Ok(entity),
+                Err(err) => {
+                    error!("{}::update: sqlx error: {}", Self::SERVICE_NAME, err);
+                    return Err(err.into());
+                }
+            }
+        }
+    }
 
     fn delete(mm: ModelManager, id: i64) -> impl Future<Output = Result<u64>> + Send {
         async move {
             let db = mm.db();
 
-            let sql = format!("DELETE FROM {} WHERE id = ?", Self::TABLE);
-            let result = sqlx::query(&sql).bind(id).execute(db).await?;
-
-            Ok(result.rows_affected())
+            match sqlb::delete()
+                .table(Self::TABLE)
+                .and_where_eq("id", id)
+                .exec(db)
+                .await
+            {
+                Ok(result) => Ok(result),
+                Err(err) => {
+                    error!("{}::delete: sqlx error: {}", Self::SERVICE_NAME, err);
+                    return Err(err.into());
+                }
+            }
         }
     }
 }

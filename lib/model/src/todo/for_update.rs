@@ -3,6 +3,7 @@
 // external crates
 use serde::{Deserialize, Serialize};
 use serde_valid::Validate;
+use sqlb::Fields;
 use utoipa::ToSchema;
 
 // internal imports
@@ -14,7 +15,7 @@ use crate::entity::EntityForUpdate;
 
 // endregion: module imports and declarations
 
-#[derive(Debug, Serialize, Deserialize, Validate, Clone, ToSchema)]
+#[derive(Debug, Serialize, Deserialize, Validate, Clone, ToSchema, Fields)]
 pub struct TodoForUpdate {
     #[validate(
         min_length = 1,

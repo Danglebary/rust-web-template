@@ -4,6 +4,7 @@
 
 use serde::{Deserialize, Serialize};
 use serde_valid::Validate;
+use sqlb::Fields;
 use utoipa::ToSchema;
 
 // internal imports
@@ -15,7 +16,7 @@ use crate::entity::EntityForCreate;
 
 // endregion: module imports and declarations
 
-#[derive(Debug, Serialize, Deserialize, Validate, Clone, ToSchema)]
+#[derive(Debug, Serialize, Deserialize, Validate, Clone, ToSchema, Fields)]
 pub struct TodoForCreate {
     #[validate(
         min_length = 1,

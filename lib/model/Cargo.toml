@@ -13,9 +13,11 @@ axum = { workspace = true }
 chrono = { workspace = true }
 serde = { workspace = true, features = ["derive"] }
 serde_valid = { workspace = true }
+sqlb = { workspace = true, features = ["chrono-support"] }
 sqlx = { workspace = true, features = ["postgres", "time", "chrono"] }
 thiserror = { workspace = true }
 utoipa = { workspace = true , features = ["chrono"] }
+tracing = { workspace = true }
 
 [dev-dependencies]
 tokio = { workspace = true, features = ["rt", "rt-multi-thread"] }
