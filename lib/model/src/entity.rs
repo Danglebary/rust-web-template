@@ -44,7 +44,7 @@ where
                 Ok(entity) => Ok(entity),
                 Err(err) => {
                     error!("{}::create: sqlx error: {}", Self::SERVICE_NAME, err);
-                    return Err(err.into());
+                    Err(err.into())
                 }
             }
         }
@@ -65,7 +65,7 @@ where
                 Ok(entity) => Ok(entity),
                 Err(err) => {
                     error!("{}::get_by_id: sqlx error: {}", Self::SERVICE_NAME, err);
-                    return Err(err.into());
+                    Err(err.into())
                 }
             }
         }
@@ -85,7 +85,7 @@ where
                 Ok(entities) => Ok(Json(entities)),
                 Err(err) => {
                     error!("{}::list: sqlx error: {}", Self::SERVICE_NAME, err);
-                    return Err(err.into());
+                    Err(err.into())
                 }
             }
         }
@@ -108,7 +108,7 @@ where
                 Ok(entity) => Ok(entity),
                 Err(err) => {
                     error!("{}::update: sqlx error: {}", Self::SERVICE_NAME, err);
-                    return Err(err.into());
+                    Err(err.into())
                 }
             }
         }
@@ -124,10 +124,16 @@ where
                 .exec(db)
                 .await
             {
-                Ok(result) => Ok(result),
+                Ok(count) => {
+                    if count == 0 {
+                        Err(Error::EntityNotFound(Self::TABLE, id))
+                    } else {
+                        Ok(count)
+                    }
+                }
                 Err(err) => {
                     error!("{}::delete: sqlx error: {}", Self::SERVICE_NAME, err);
-                    return Err(err.into());
+                    Err(err.into())
                 }
             }
         }
