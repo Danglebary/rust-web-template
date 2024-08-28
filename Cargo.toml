@@ -51,7 +51,6 @@ tokio = { workspace = true, features = ["macros", "rt", "rt-multi-thread"] }
 thiserror = { workspace = true }
 utoipa = { workspace = true, features = ["axum_extras"] }
 utoipauto = { workspace = true }
-serde = { workspace = true, features = ["derive"] }
 
 
 [workspace.dependencies]
