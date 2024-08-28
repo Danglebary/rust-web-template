@@ -62,10 +62,11 @@ pub struct AppConfig {
 
 impl AppConfig {
     pub fn load_from_env() -> Result<Self> {
-        if std::env::var("APP_ENV").is_ok_and(|env| env == "local") {
-            if fs::metadata(".env").is_ok() {
-                dotenvy::dotenv().expect("Failed to load .env file");
-            }
+        // If the SERVICE_APP_ENV is set to "local" and a .env file exists, load the .env file
+        if std::env::var("SERVICE_APP_ENV").is_ok_and(|env| env == "local")
+            && fs::metadata(".env").is_ok()
+        {
+            dotenvy::dotenv().expect("Failed to load .env file");
         }
 
         Ok(Self {

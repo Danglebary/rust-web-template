@@ -30,7 +30,7 @@ use lib_model::{
         (status = 500, body = String)
     )
 )]
-pub async fn get_by_id(State(mm): State<ModelManager>, Path(id): Path<u64>) -> Result<Todo> {
+pub async fn get_by_id(State(mm): State<ModelManager>, Path(id): Path<i64>) -> Result<Todo> {
     let todo = TodoService::get_by_id(mm, id).await;
 
     match todo {
@@ -94,7 +94,7 @@ pub async fn create(
 )]
 pub async fn update(
     State(mm): State<ModelManager>,
-    Path(id): Path<u64>,
+    Path(id): Path<i64>,
     Json(data): Json<TodoForUpdate>,
 ) -> Result<Todo> {
     let todo = TodoService::update(mm, id, data).await;
@@ -117,7 +117,7 @@ pub async fn update(
         (status = 500, body = String)
     )
 )]
-pub async fn delete(State(mm): State<ModelManager>, Path(id): Path<u64>) -> Result<String> {
+pub async fn delete(State(mm): State<ModelManager>, Path(id): Path<i64>) -> Result<String> {
     let todo = TodoService::delete(mm, id).await;
 
     match todo {

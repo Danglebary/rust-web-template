@@ -52,7 +52,7 @@ async fn root_pool() -> Db {
     let config = config();
 
     let url = format!(
-        "mariadb://root:super_secret_password@{}:{}/",
+        "postgres://root:super_secret_password@{}:{}/",
         config.DB_HOST, config.DB_PORT
     );
 
@@ -63,7 +63,7 @@ async fn test_pool() -> Db {
     let config = config();
 
     let url = format!(
-        "mariadb://test_user:test_password@{}:{}/test_db",
+        "postgres://test_user:test_password@{}:{}/test_db",
         config.DB_HOST, config.DB_PORT
     );
 
@@ -71,7 +71,7 @@ async fn test_pool() -> Db {
 }
 
 async fn new_pool(url: String) -> Db {
-    sqlx::mysql::MySqlPoolOptions::new()
+    sqlx::postgres::PgPoolOptions::new()
         .max_connections(1)
         .acquire_timeout(std::time::Duration::from_millis(500))
         .connect(&url)

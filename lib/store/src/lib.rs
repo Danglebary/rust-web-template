@@ -1,7 +1,7 @@
 // region:    module imports and declarations
 
 // external crates
-use sqlx::{mysql::MySqlPoolOptions, MySql, Pool};
+use sqlx::{postgres::PgPoolOptions, PgPool};
 use std::time::Duration;
 
 // internal imports
@@ -16,11 +16,11 @@ pub use error::*;
 
 // endregion: module imports and declarations
 
-pub type Db = Pool<MySql>;
+pub type Db = PgPool;
 
 pub async fn new_pool() -> Result<Db> {
     let db_url = format!(
-        "mariadb://{}:{}@{}:{}/{}",
+        "postgres://{}:{}@{}:{}/{}",
         config().DB_USER,
         config().DB_PASSWORD,
         config().DB_HOST,
@@ -28,7 +28,7 @@ pub async fn new_pool() -> Result<Db> {
         config().DB_NAME
     );
 
-    MySqlPoolOptions::new()
+    PgPoolOptions::new()
         .max_connections(config().DB_POOL_MAX_CONNECTIONS)
         .min_connections(config().DB_POOL_MIN_CONNECTIONS)
         .acquire_timeout(Duration::from_millis(config().DB_AQUIRE_TIMEOUT_MILLIS))

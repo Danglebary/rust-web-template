@@ -9,5 +9,5 @@ lib-config = { path = "../config" }
 
 # External
 anyhow = { workspace = true }
-sqlx = { workspace = true, features = ["mysql", "runtime-tokio"] }
+sqlx = { workspace = true, features = ["postgres", "runtime-tokio"] }
 thiserror = { workspace = true }

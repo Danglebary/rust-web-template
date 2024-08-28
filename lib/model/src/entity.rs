@@ -4,7 +4,7 @@
 use axum::Json;
 use serde::{de::DeserializeOwned, Serialize};
 use serde_valid::Validate;
-use sqlx::{mysql::MySqlRow, FromRow};
+use sqlx::{postgres::PgRow, FromRow};
 use std::future::Future;
 
 // internal imports
@@ -18,13 +18,13 @@ use super::{Error, ModelManager, Result};
 
 pub trait EntityService<E, C, U>
 where
-    E: for<'r> FromRow<'r, MySqlRow> + Unpin + Send,
+    E: for<'r> FromRow<'r, PgRow> + Unpin + Send,
     C: EntityForCreate,
     U: EntityForUpdate,
 {
     const TABLE: &'static str;
 
-    fn get_by_id(mm: ModelManager, id: u64) -> impl Future<Output = Result<E>> + Send {
+    fn get_by_id(mm: ModelManager, id: i64) -> impl Future<Output = Result<E>> + Send {
         async move {
             let db = mm.db();
 
@@ -50,9 +50,9 @@ where
     }
 
     fn create(mm: ModelManager, data: C) -> impl Future<Output = Result<E>> + Send;
-    fn update(mm: ModelManager, id: u64, data: U) -> impl Future<Output = Result<E>> + Send;
+    fn update(mm: ModelManager, id: i64, data: U) -> impl Future<Output = Result<E>> + Send;
 
-    fn delete(mm: ModelManager, id: u64) -> impl Future<Output = Result<u64>> + Send {
+    fn delete(mm: ModelManager, id: i64) -> impl Future<Output = Result<u64>> + Send {
         async move {
             let db = mm.db();
 

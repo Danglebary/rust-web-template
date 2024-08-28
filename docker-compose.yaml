@@ -19,7 +19,7 @@ services:
             # Database Settings
             SERVICE_DB_NAME: ${SERVICE_DB_NAME}
             SERVICE_DB_HOST: test-db # This is the name of the service in the docker-compose file
-            SERVICE_DB_PORT: 3306 # This is the port of the db inside the container network
+            SERVICE_DB_PORT: ${SERVICE_DB_PORT} # This is the port of the db inside the container network
             SERVICE_DB_USER: ${SERVICE_DB_USER}
             SERVICE_DB_PASSWORD: ${SERVICE_DB_PASSWORD}
             SERVICE_DB_POOL_MIN_CONNECTIONS: ${SERVICE_DB_POOL_MIN_CONNECTIONS}
@@ -32,11 +32,10 @@ services:
             SERVICE_OBSERVABILITY_API_KEY: ${SERVICE_OBSERVABILITY_API_KEY}
             SERVICE_OBSERVABILITY_API_INGEST_URL: ${SERVICE_OBSERVABILITY_API_INGEST_URL}
     test-db:
-        image: mariadb:10.6
+        image: postgres:16.4
         environment:
-            MYSQL_ROOT_PASSWORD: "super_secret_password"
-            MYSQL_DATABASE: ${SERVICE_DB_NAME}
-            MYSQL_USER: ${SERVICE_DB_USER}
-            MYSQL_PASSWORD: ${SERVICE_DB_PASSWORD}
+            POSTGRES_DB: ${SERVICE_DB_NAME}
+            POSTGRES_USER: ${SERVICE_DB_USER}
+            POSTGRES_PASSWORD: ${SERVICE_DB_PASSWORD}
         ports:
-            - "3303:3306"
+            - "5432:5432"

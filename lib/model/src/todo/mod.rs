@@ -22,7 +22,7 @@ pub use for_update::TodoForUpdate;
 
 #[derive(Debug, Serialize, Clone, FromRow, ToSchema)]
 pub struct Todo {
-    pub id: u64,
+    pub id: i64,
     pub title: String,
     pub completed: bool,
 

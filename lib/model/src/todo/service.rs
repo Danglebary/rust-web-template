@@ -36,7 +36,7 @@ impl EntityService<Todo, TodoForCreate, TodoForUpdate> for TodoService {
         // So, for now, we'll just do two queries to get the inserted row.
 
         // create the todo
-        let (id,) = sqlx::query_as::<_, (u64,)>("INSERT INTO todo (title) VALUES (?) RETURNING id")
+        let (id,) = sqlx::query_as::<_, (i64,)>("INSERT INTO todo (title) VALUES (?) RETURNING id")
             .bind(data.title)
             .fetch_one(db)
             .await?;
@@ -50,7 +50,7 @@ impl EntityService<Todo, TodoForCreate, TodoForUpdate> for TodoService {
         Ok(todo)
     }
 
-    async fn update(mm: ModelManager, id: u64, data: TodoForUpdate) -> Result<Todo> {
+    async fn update(mm: ModelManager, id: i64, data: TodoForUpdate) -> Result<Todo> {
         // validate the data
         data.validate()?;
 

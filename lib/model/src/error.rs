@@ -27,7 +27,7 @@ pub enum Error {
     Validation(#[from] ValidationErrors),
 
     #[error("entity {0} with id {1} not found")]
-    EntityNotFound(&'static str, u64),
+    EntityNotFound(&'static str, i64),
 }
 
 pub type Result<T> = AnyResult<T, Error>;

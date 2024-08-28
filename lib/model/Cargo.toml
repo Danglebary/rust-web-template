@@ -13,7 +13,7 @@ axum = { workspace = true }
 chrono = { workspace = true }
 serde = { workspace = true, features = ["derive"] }
 serde_valid = { workspace = true }
-sqlx = { workspace = true, features = ["mysql", "time", "chrono"] }
+sqlx = { workspace = true, features = ["postgres", "time", "chrono"] }
 thiserror = { workspace = true }
 utoipa = { workspace = true , features = ["chrono"] }
 
