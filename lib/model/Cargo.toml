@@ -18,6 +18,6 @@ thiserror = { workspace = true }
 utoipa = { workspace = true , features = ["chrono"] }
 
 [dev-dependencies]
-tokio = { workspace = true, features = ["full"] }
+tokio = { workspace = true, features = ["rt", "rt-multi-thread"] }
 serial_test = { workspace = true }
 test-case = { workspace = true }
