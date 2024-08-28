@@ -1,6 +1,10 @@
+# TODO: maybe try cargo-chef for better caching
+
 FROM rust:1.79-alpine as builder
 
-# Install the required dependencies
+# Install the required dependencies (since we are going to statically link the binary)
+# curl is required here because the `gen-api-docs` binary uses a lib that includes a fetch 
+# of Swagger UI during the build process
 RUN apk add --no-cache musl-dev openssl-dev openssl-libs-static pkgconf curl
 
 # `SYSROOT` is defaulted to `/usr`, but pkg-config-rs will always dynamically link
