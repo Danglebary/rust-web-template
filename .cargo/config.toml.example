@@ -1,13 +1,13 @@
 [env]
 # Application Identifiers
 SERVICE_APP_NAME="rust-web-template"
-SERVICE_APP_VERSION="0.1.0"
+SERVICE_APP_VERSION="1.0.0"
 SERVICE_APP_STAGE="local"
 
 # Application Settings
 SERVICE_APP_LOG_LEVEL="debug"
 SERVICE_APP_HOST="0.0.0.0"
-SERVICE_APP_PORT="1337"
+SERVICE_APP_PORT="3000"
 
 # Database Settings
 SERVICE_DB_NAME="app_db"

@@ -39,7 +39,7 @@ services:
                 condition: service_completed_successfully
         build: .
         ports:
-            - "1337:1337"
+            - "3000:3000"
         environment:
             # Application Identifiers
             SERVICE_APP_NAME: ${SERVICE_APP_NAME}
@@ -54,7 +54,7 @@ services:
             # Database Settings
             SERVICE_DB_NAME: ${SERVICE_DB_NAME}
             SERVICE_DB_HOST: test-db # This is the name of the service in the docker-compose file
-            SERVICE_DB_PORT: ${SERVICE_DB_PORT} # This is the port of the db inside the container network
+            SERVICE_DB_PORT: ${SERVICE_DB_PORT}
             SERVICE_DB_USER: ${SERVICE_DB_USER}
             SERVICE_DB_PASSWORD: ${SERVICE_DB_PASSWORD}
             SERVICE_DB_POOL_MIN_CONNECTIONS: ${SERVICE_DB_POOL_MIN_CONNECTIONS}

@@ -46,6 +46,6 @@ RUN cargo build --release --bin app
 FROM scratch AS runtime
 COPY --from=doc_builder /build/api-doc /api-doc
 COPY --from=app_builder /build/target/release/app /app
-EXPOSE 1337
+EXPOSE 3000
 
 CMD ["/app"]
