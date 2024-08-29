@@ -42,6 +42,7 @@ pub struct AppConfig {
     pub APP_LOG_LEVEL: Level,
     pub APP_HOST: IpAddr,
     pub APP_PORT: u16,
+    pub APP_API_TIMEOUT_SECS: u16,
 
     // Database Settings
     pub DB_NAME: String,
@@ -78,6 +79,7 @@ impl AppConfig {
             APP_LOG_LEVEL: EnvVar::from_env::<Level>(constants::APP_LOG_LEVEL)?,
             APP_HOST: EnvVar::from_env::<IpAddr>(constants::APP_HOST)?,
             APP_PORT: EnvVar::from_env::<u16>(constants::APP_PORT)?,
+            APP_API_TIMEOUT_SECS: EnvVar::from_env::<u16>(constants::APP_API_TIMEOUT_SECS)?,
 
             // Database Settings
             DB_NAME: EnvVar::from_env::<String>(constants::DB_NAME)?,

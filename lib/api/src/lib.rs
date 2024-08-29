@@ -13,6 +13,7 @@ mod swagger;
 
 // self imports and exports
 pub use error::*;
+use layers::add_layers;
 
 // endregion: module imports and declarations
 
@@ -26,7 +27,7 @@ pub async fn build_router() -> Result<Router> {
     router = fallback::add_fallback(router);
 
     // Add layers
-    router = layers::add_layers(router);
+    router = add_layers(router);
 
     // Add Swagger UI
     router = swagger::add_swagger_ui(router)?;

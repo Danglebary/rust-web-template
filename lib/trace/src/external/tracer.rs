@@ -16,6 +16,9 @@ use lib_config::config;
 
 // endregion: module imports and declarations
 
+// TODO: This breaks if we update our dependencies to use the latest versions
+// We should revisit this implementation
+
 pub fn build() -> Result<Tracer> {
     let mut map = tonic::metadata::MetadataMap::with_capacity(1);
 

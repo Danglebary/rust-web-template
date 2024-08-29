@@ -20,8 +20,11 @@ use uuid::Uuid;
 
 // endregion: module imports and declarations
 
+// TODO: let's revisit this implementation
+// This is likely more complex than necessary
+
 pub fn add_trace_layer(router: Router) -> Router {
-    let trace_layer = TraceLayer::new_for_http().make_span_with(|request: &Request<Body>| {
+    let layer = TraceLayer::new_for_http().make_span_with(|request: &Request<Body>| {
         let request_id = Uuid::new_v4().to_string();
 
         let matched_path = request
@@ -46,5 +49,5 @@ pub fn add_trace_layer(router: Router) -> Router {
         error!(parent: span, message = "request failed", %error, ?latency);
     });
 
-    router.layer(trace_layer)
+    router.layer(layer)
 }

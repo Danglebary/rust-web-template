@@ -7,6 +7,7 @@ pub const APP_STAGE: &str = "SERVICE_APP_STAGE";
 pub const APP_LOG_LEVEL: &str = "SERVICE_APP_LOG_LEVEL";
 pub const APP_HOST: &str = "SERVICE_APP_HOST";
 pub const APP_PORT: &str = "SERVICE_APP_PORT";
+pub const APP_API_TIMEOUT_SECS: &str = "SERVICE_APP_API_TIMEOUT_SECS";
 
 // Database Settings
 pub const DB_NAME: &str = "SERVICE_DB_NAME";

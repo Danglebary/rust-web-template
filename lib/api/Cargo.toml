@@ -7,10 +7,12 @@ edition = "2021"
 # Internal
 lib-controller = { path = "../controller" }
 lib-trace = { path = "../trace" }
+lib-config = { path = "../config" }
 
 # External
 anyhow = { workspace = true }
 axum = { workspace = true }
 serde_json = { workspace = true }
 thiserror = { workspace = true }
+tower-http = { workspace = true, features = ["timeout"] }
 utoipa-swagger-ui = { workspace = true, features = ["axum"] }
