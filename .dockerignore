@@ -1,0 +1,9 @@
+target
+api-doc
+.env
+.env.example
+.git
+.gitignore
+Dockerfile
+docker-compose.yaml
+README.md
