@@ -1897,6 +1897,7 @@ dependencies = [
  "lib-trace",
  "thiserror",
  "tokio",
+ "tracing",
  "utoipa",
  "utoipauto",
 ]

@@ -1,7 +1,7 @@
 // region:    module imports and declarations
 
 // external crates
-use std::{fs, net::IpAddr, sync::OnceLock};
+use std::{net::IpAddr, sync::OnceLock};
 use tracing::Level;
 
 // internal imports
@@ -62,10 +62,9 @@ pub struct AppConfig {
 
 impl AppConfig {
     pub fn load_from_env() -> Result<Self> {
-        // If the SERVICE_APP_ENV is set to "local" and a .env file exists, load the .env file
-        if std::env::var("SERVICE_APP_ENV").is_ok_and(|env| env == "local")
-            && fs::metadata(".env").is_ok()
-        {
+        // If the SERVICE_APP_ENV var is not set,
+        // we are in a local environment and should load the .env file
+        if std::env::var("SERVICE_APP_ENV").is_err() {
             dotenvy::dotenv().expect("Failed to load .env file");
         }
 

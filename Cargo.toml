@@ -48,6 +48,7 @@ lib-model = { path = "lib/model" }
 anyhow = { workspace = true }
 axum =  { workspace = true }
 tokio = { workspace = true, features = ["macros", "rt", "rt-multi-thread"] }
+tracing = { workspace = true }
 thiserror = { workspace = true }
 utoipa = { workspace = true, features = ["axum_extras"] }
 utoipauto = { workspace = true }
