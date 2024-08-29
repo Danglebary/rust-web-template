@@ -8,7 +8,7 @@ use lib_model::ModelManager;
 
 // modules
 pub mod error;
-mod health;
+mod ready;
 
 // Any controller that utilizes `utoipa` must be public
 pub mod todo;
@@ -24,9 +24,7 @@ pub async fn add_routes(router: Router) -> Router {
         .expect("Failed to create ModelManager");
 
     // Add routes not related to API controllers
-    let router = router
-        .route("/healthz", get(health::healthz))
-        .route("/readyz", get(health::readyz));
+    let router = router.route("/readyz", get(ready::readyz));
 
     // Add API controllers
     let mut api_v1 = Router::new();

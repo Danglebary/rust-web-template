@@ -12,11 +12,6 @@ use axum::http::StatusCode;
 // endregion: module imports and declarations
 
 #[tracing::instrument]
-pub(super) async fn healthz() -> StatusCode {
-    StatusCode::OK
-}
-
-#[tracing::instrument]
 pub(super) async fn readyz() -> StatusCode {
     // TODO: add readiness checks here
     StatusCode::OK
