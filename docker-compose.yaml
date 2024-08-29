@@ -1,10 +1,45 @@
 services:
+    test-db:
+        image: postgres:16.4
+        environment:
+            POSTGRES_DB: ${SERVICE_DB_NAME}
+            POSTGRES_USER: ${SERVICE_DB_USER}
+            POSTGRES_PASSWORD: ${SERVICE_DB_PASSWORD}
+        ports:
+            - "5432:5432"
+        healthcheck:
+            test: pg_isready -U ${SERVICE_DB_USER} -d ${SERVICE_DB_NAME}
+            interval: 5s
+            timeout: 3s
+            retries: 3
+
+    run-migrations:
+        depends_on:
+            test-db:
+                condition: service_healthy
+        build:
+            dockerfile_inline: |
+                FROM rust
+                COPY ./migrations /migrations
+                ENV DATABASE_URL=postgres://${SERVICE_DB_USER}:${SERVICE_DB_PASSWORD}@test-db:${SERVICE_DB_PORT}/${SERVICE_DB_NAME}
+                RUN cargo install sqlx-cli --no-default-features --features postgres
+        entrypoint: ["sqlx", "migrate", "run"]
+        environment:
+            SERVICE_DB_NAME: ${SERVICE_DB_NAME}
+            SERVICE_DB_HOST: test-db # This is the name of the service in the docker-compose file
+            SERVICE_DB_PORT: ${SERVICE_DB_PORT} # This is the port of the db inside the container network
+            SERVICE_DB_USER: ${SERVICE_DB_USER}
+            SERVICE_DB_PASSWORD: ${SERVICE_DB_PASSWORD}
+
     app:
+        depends_on:
+            test-db:
+                condition: service_healthy
+            run-migrations:
+                condition: service_completed_successfully
         build: .
         ports:
             - "1337:1337"
-        depends_on:
-            - test-db
         environment:
             # Application Identifiers
             SERVICE_APP_NAME: ${SERVICE_APP_NAME}
@@ -31,11 +66,3 @@ services:
             SERVICE_OBSERVABILITY_API_KEY_HEADER: ${SERVICE_OBSERVABILITY_API_KEY_HEADER}
             SERVICE_OBSERVABILITY_API_KEY: ${SERVICE_OBSERVABILITY_API_KEY}
             SERVICE_OBSERVABILITY_API_INGEST_URL: ${SERVICE_OBSERVABILITY_API_INGEST_URL}
-    test-db:
-        image: postgres:16.4
-        environment:
-            POSTGRES_DB: ${SERVICE_DB_NAME}
-            POSTGRES_USER: ${SERVICE_DB_USER}
-            POSTGRES_PASSWORD: ${SERVICE_DB_PASSWORD}
-        ports:
-            - "5432:5432"

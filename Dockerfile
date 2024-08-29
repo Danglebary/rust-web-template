@@ -1,7 +1,5 @@
-# TODO: maybe try cargo-chef for better caching
-
-FROM rust:1.79-alpine as builder
-
+# Stage 1 - Install cargo-chef
+FROM rust:alpine AS chef
 # Install the required dependencies (since we are going to statically link the binary)
 # curl is required here because the `gen-api-docs` binary uses a lib that includes a fetch 
 # of Swagger UI during the build process
@@ -12,45 +10,42 @@ RUN apk add --no-cache musl-dev openssl-dev openssl-libs-static pkgconf curl
 # we need to set `SYSROOT` to a dummy directory.
 ENV SYSROOT=/dummy
 
-# Set the working directory
+# Install cargo-chef
+RUN cargo install cargo-chef
 WORKDIR /build
 
-# Copy the Cargo.toml and Cargo.lock files
-COPY ./Cargo.lock ./Cargo.lock
-COPY ./Cargo.toml ./Cargo.toml
+# Stage 2 - Build recipe for dependencies
+FROM chef AS planner
+COPY . .
+RUN cargo chef prepare --recipe-path recipe.json
 
-# Copy the source code
-COPY ./src ./src
-COPY ./lib ./lib
-COPY ./gen-api-docs ./gen-api-docs
+# Stage 3 - Cache dependencies
+FROM chef AS cacher
+COPY --from=planner /build/recipe.json recipe.json
+RUN cargo chef cook --release --recipe-path recipe.json
 
+# Stage 4 - Build the API documentation
+FROM cacher AS doc_builder
+COPY . .
+# Copy the cached dependencies
+COPY --from=cacher /build/target target
+COPY --from=cacher /usr/local/cargo /usr/local/cargo
 # Generate the API documentation
 RUN mkdir ./api-doc
 RUN cargo run --bin gen-api-docs
 
-# Run build to cache dependencies
-RUN cargo build --bin app --release && rm -rf ./src && rm -rf ./lib
-
-# Copy the source code again
-COPY ./lib ./lib
-COPY ./src ./src
-
-# Build for release
-RUN rm ./target/release/deps/app*
-RUN rm ./target/release/deps/lib_*
-RUN cargo build --bin app --release
+# Stage 5 - Build the final executable
+FROM doc_builder AS app_builder
+COPY . .
+# Copy the cached dependencies
+COPY --from=cacher /build/target target
+COPY --from=cacher /usr/local/cargo /usr/local/cargo
+RUN cargo build --release --bin app
 
 # final base
-FROM scratch
-
-# TODO: maybe add labels?
-
-# Copy the built binary and API documentation
-COPY --from=builder ./build/api-doc ./api-doc
-COPY --from=builder ./build/target/release/app ./app
-
-# Expose the port
+FROM scratch AS runtime
+COPY --from=doc_builder /build/api-doc /api-doc
+COPY --from=app_builder /build/target/release/app /app
 EXPOSE 1337
 
-# Run the binary
-CMD ["./app"]
+CMD ["/app"]
