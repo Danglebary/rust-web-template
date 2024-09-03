@@ -70,7 +70,7 @@ serial_test = "3.1.1"
 sqlb = "0.4.0"
 sqlx = "0.7.4"
 test-case = "3.3.1"
-tokio = { version = "1.39.3", features = [] }
+tokio = { version = "1.40.0", features = [] }
 tonic = "0.12.2"
 tower-http = "0.5.2"
 thiserror = "1.0.63"

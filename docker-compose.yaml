@@ -50,6 +50,7 @@ services:
             SERVICE_APP_HOST: ${SERVICE_APP_HOST}
             SERVICE_APP_PORT: ${SERVICE_APP_PORT}
             SERVICE_APP_LOG_LEVEL: ${SERVICE_APP_LOG_LEVEL}
+            SERVICE_APP_API_TIMEOUT_SECS: ${SERVICE_APP_API_TIMEOUT_SECS}
 
             # Database Settings
             SERVICE_DB_NAME: ${SERVICE_DB_NAME}

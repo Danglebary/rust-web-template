@@ -65,7 +65,7 @@ impl AppConfig {
     pub fn load_from_env() -> Result<Self> {
         // If the SERVICE_APP_ENV var is not set,
         // we are in a local environment and should load the .env file
-        if std::env::var("SERVICE_APP_ENV").is_err() {
+        if std::env::var("SERVICE_APP_STAGE").is_err() {
             dotenvy::dotenv().expect("Failed to load .env file");
         }
 
