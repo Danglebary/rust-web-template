@@ -33,7 +33,7 @@ async fn main() -> Result<()> {
     debug!("Setting up TCP listener");
     let addr = SocketAddr::from((config.APP_HOST, config.APP_PORT));
     let listener = tokio::net::TcpListener::bind(&addr).await?;
-    debug!("TCP listener setup");
+    debug!("TCP listener setup complete");
 
     info!("Server listening on: {}", config.APP_PORT);
     axum::serve(listener, router)
